@@ -32,7 +32,27 @@ const readUser = async (req: Request, res: Response, next: NextFunction) => {
     }
 }
 
+const userLogin = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const data = req.body;
+        const { token, user } = await userServices.login(data);
+        console.debug(user)
+        return res.status(200).json({
+            success: true,
+            message: "Login sucessfully",
+            user: {
+                _id: user._id,
+                email: user.email,
+                token
+            }
+        })
+    } catch (error) {
+        next(error)
+    }
+}
+
 export const userController = {
     register,
-    readUser
+    readUser,
+    userLogin
 }
