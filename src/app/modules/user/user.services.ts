@@ -1,14 +1,25 @@
 
+import { Fault } from "../../utils/Fault";
 import { User } from "./user.interface";
 import UserModel from "./user.model";
 
 const registerUserIntoDB = async (user: User) => {
+    try {
 
-    console.debug("service user ", user)
-    const result = await UserModel.create(user);
-    console.log("res ser ", result)
+        const userExist = await UserModel.findOne({
+            email: user.email
+        })
 
-    return result;
+
+        if (userExist) {
+            throw new Fault("User already exists", 400)
+        }
+
+        const result = await UserModel.create(user);
+        return result;
+    } catch (error) {
+        throw error
+    }
 }
 
 
