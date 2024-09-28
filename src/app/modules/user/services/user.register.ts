@@ -1,15 +1,13 @@
+import { Fault } from "../../../utils/Fault";
+import { User } from "../user.interface";
+import UserModel from "../user.model";
 
-import { Fault } from "../../utils/Fault";
-import { User } from "./user.interface";
-import UserModel from "./user.model";
-
-const registerUserIntoDB = async (user: User) => {
+export const registerUserIntoDB = async (user: User) => {
     try {
 
         const userExist = await UserModel.findOne({
             email: user.email
         })
-
 
         if (userExist) {
             throw new Fault("User already exists", 400)
@@ -20,9 +18,4 @@ const registerUserIntoDB = async (user: User) => {
     } catch (error) {
         throw error
     }
-}
-
-
-export const userServices = {
-    registerUserIntoDB
 }
