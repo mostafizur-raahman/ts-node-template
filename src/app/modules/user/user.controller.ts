@@ -36,7 +36,7 @@ const userLogin = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const data = req.body;
         const { token, user } = await userServices.login(data);
-        console.debug(user)
+
         return res.status(200).json({
             success: true,
             message: "Login sucessfully",
