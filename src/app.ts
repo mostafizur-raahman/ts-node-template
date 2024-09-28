@@ -1,6 +1,7 @@
 import express, { NextFunction, Request, Response } from "express";
 import cors from "cors";
 import router from "./app/modules/routes";
+import { Fault } from "./app/utils/Fault";
 const app = express();
 
 // middleware
@@ -17,6 +18,14 @@ app.get("/", (req: Request, res: Response) => {
 
 // global error handeler
 app.use((err: unknown, req: Request, res: Response, next: NextFunction) => {
+
+    if (err instanceof Fault) {
+        return res.status(err.statusCode).json({
+            success: false,
+            message: err.message,
+        });
+    }
+
     if (err) {
         return res.status(400).json({
             success: false,
