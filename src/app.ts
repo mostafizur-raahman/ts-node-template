@@ -8,7 +8,6 @@ const app = express();
 // middleware
 app.use(express.json());
 app.use(cors());
-
 app.use(morgan('dev'));
 // routes 
 app.use("/api/v1", router)
